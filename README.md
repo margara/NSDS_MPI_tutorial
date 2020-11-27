@@ -10,4 +10,5 @@ Available examples
 - Ping pong (send and receive between two processes)
 - Ring (send and receive between many processes)
 - Distributed average computation (gather and scatter)
+- Array filter (broadcast, probe)
 - Character count (more complex example that shows the complexity of data shuffle)
