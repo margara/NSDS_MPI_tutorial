@@ -15,14 +15,6 @@
 //
 // In the second phase, each process becomes responsible for some of the characters and
 // aggregates the partial counts for those characters.
-//
-// The code exemplifies the use of custom datatypes and the use of asynchronous communication.
-//
-// Possible extensions/improvements:
-// 1. Each process can send (asynchronously) all the data it has for other processes
-//    before starting to receive.
-// 2. The number of processes could be different than the number of files.
-// 3. The final result can be collected in a single node.
  typedef struct pair_char_pair_t {
   char c;
   int count;
@@ -81,33 +73,11 @@ int main(int argc, char** argv) {
   fclose(file);
 
   // Sending and receiving each letter
-  MPI_Request req;
-  for (int i=0; i<num_letters; i++) {
-    int receiver = i % world_size;
-    // I am the receiver
-    if (receiver == my_rank) {
-      // I receive one message from any other process
-      for (int p=0; p<world_size-1; p++) {
-	char_int_pair rec_buffer;
-	MPI_Recv(&rec_buffer, 1, mpi_char_int_pair, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-	local_count[i].count += rec_buffer.count;
-      }
-    }
-    // I am a sender: I can send asynchronously
-    else {
-      MPI_Isend(&local_count[i], 1, mpi_char_int_pair, receiver, 0, MPI_COMM_WORLD, &req);
-    }
-  }
+  // TODO
   
   // When done, everybody prints its own results
-  for (int i=0; i<num_letters; i++) {
-    int owner = i % world_size;
-    if (owner == my_rank) {
-      printf("%c -> %d\n", local_count[i].c, local_count[i].count);
-    }
-  }
-
-  free(local_count);
+  // TODO
+  
   MPI_Type_free(&mpi_char_int_pair);
   MPI_Finalize();
 }

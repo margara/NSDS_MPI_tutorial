@@ -52,39 +52,8 @@ int main(int argc, char** argv) {
     global_arr = create_random_array(num_elements_per_proc * world_size, 100);
   }
 
-  // For each process, create a receive buffer
-  int *local_arr = (int *) malloc(sizeof(int) * num_elements_per_proc);
-
-  // Scatter the random numbers from process 0 to all processes
-  MPI_Scatter(global_arr, num_elements_per_proc, MPI_INT, local_arr, num_elements_per_proc, MPI_INT, 0, MPI_COMM_WORLD);
-
-  // Compute the average of local array
-  float local_average = compute_average(local_arr, num_elements_per_proc);
-
-  // Gather all partial results in process 0
-  float *gather_buffer = NULL;
-  if (my_rank == 0) {
-    gather_buffer = (float *) malloc(sizeof(float) * world_size);
-  }
-  MPI_Gather(&local_average, 1, MPI_FLOAT, gather_buffer, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
-
-  // Compute the final average in process 0
-  if (my_rank == 0) {
-    float result = compute_final_average(gather_buffer, world_size);
-    printf("The average is %f\n", result);
-
-    // Sequential code to check correctness
-    float sequential_result = compute_average(global_arr, num_elements_per_proc * world_size);
-    printf("The average (sequential computation) is %f\n", sequential_result);
-  }
-
-  // Clean up
-  if (my_rank == 0) {
-    free(global_arr);
-    free(gather_buffer);
-  }
-  free(local_arr);
-
+  // TODO
+  
   MPI_Barrier(MPI_COMM_WORLD);
   MPI_Finalize();
 }
