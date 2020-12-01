@@ -4,7 +4,7 @@ Tutorial of MPI for the Middleware Technologies for Distributed Systems course
 
 Available examples
 
-- Hello wordls
+- Hello world
 - Single receive (check use of resources)
 - Deadlock (exemplify possible deadlocks)
 - Ping pong (send and receive between two processes)
